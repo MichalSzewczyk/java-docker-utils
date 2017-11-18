@@ -1,12 +1,13 @@
 package com.szewczyk.microservices.utils.db.etcd;
 
 import com.szewczyk.microservices.utils.db.NoSqlDBUtils;
-import lombok.extern.slf4j.Slf4j;
 import mousio.etcd4j.EtcdClient;
 import mousio.etcd4j.promises.EtcdResponsePromise;
 import mousio.etcd4j.responses.EtcdAuthenticationException;
 import mousio.etcd4j.responses.EtcdException;
 import mousio.etcd4j.responses.EtcdKeysResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,8 +17,9 @@ import java.util.concurrent.TimeoutException;
 
 import static java.util.Objects.isNull;
 
-@Slf4j
 public class EtcdDBUtils implements NoSqlDBUtils {
+    private final Logger log = LoggerFactory.getLogger(EtcdDBUtils.class);
+
     private EtcdClient etcd;
     private final String etcdUri;
 

@@ -1,6 +1,8 @@
 package com.szewczyk.microservices.utils.shell;
 
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
 
-@Slf4j
 public class ShellCommandsExecutor implements CommandsExecutor {
+    private final Logger log = LoggerFactory.getLogger(ShellCommandsExecutor.class);
+
     public Optional<String> execute(String... commands) {
         try {
             log.info("Started commands execution: {}", commands);

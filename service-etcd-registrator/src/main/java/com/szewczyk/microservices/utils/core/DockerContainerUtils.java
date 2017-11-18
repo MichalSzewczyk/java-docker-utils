@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szewczyk.microservices.utils.model.ServiceDiscoveryData;
 import com.szewczyk.microservices.utils.shell.CommandsExecutor;
 import com.szewczyk.microservices.utils.db.NoSqlDBUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class DockerContainerUtils implements Registration, Discovery, AutoCloseable {
+    private final Logger log = LoggerFactory.getLogger(DockerContainerUtils.class);
     private static final String GET_CONTAINER_ID_COMMAND = "cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\\///' | cut -c 1-12";
 
     private final CommandsExecutor commandsExecutor;
