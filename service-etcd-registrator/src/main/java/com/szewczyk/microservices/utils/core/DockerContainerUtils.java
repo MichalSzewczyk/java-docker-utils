@@ -7,6 +7,7 @@ import com.szewczyk.microservices.utils.db.NoSqlDBUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class DockerContainerUtils implements Registration, Discovery, AutoClosea
     }
 
     public boolean registerMicroServiceContainerIdUnder(String key, String serviceName) {
+        log.info("Registration of service {} with name");
         return commandsExecutor
                 .execute(GET_CONTAINER_ID_COMMAND)
                 .filter(s -> databaseConnectionUtils.putUnderDirectory(key + "/" + serviceName, s))
@@ -34,8 +36,11 @@ public class DockerContainerUtils implements Registration, Discovery, AutoClosea
 
     @Override
     public List<ServiceDiscoveryData> discoveryServicesFrom(String directory) {
-        List<String> discoveryEntries = databaseConnectionUtils.getAllEntriesFrom(directory);
-        return discoveryEntries
+        Optional<List<String>> discoveryEntries = databaseConnectionUtils.getAllEntriesFrom(directory);
+        if (!discoveryEntries.isPresent()) {
+            return Collections.emptyList();
+        }
+        return discoveryEntries.get()
                 .stream()
                 .map(this::deserializeToServiceData)
                 .filter(Optional::isPresent)
